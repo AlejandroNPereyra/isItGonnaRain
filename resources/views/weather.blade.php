@@ -8,6 +8,10 @@
 <body>
     <h1>Weather Forecast for Barcelona</h1>
 
+    {{-- <pre>
+        {{ dd($data) }}
+    </pre> --}}
+
     <h2>Next 4 Hours</h2>
     @if (isset($data['hourly']))
         <?php

@@ -9,7 +9,9 @@
     /* Add some basic styling for a weather theme */
     body {
       font-family: Arial, sans-serif;
-      background-color: #e0e0e0;
+      background-image: url('isItGonnaRain.jpg');
+      background-size: cover;
+      background-position: center;      
       color: #333;
     }
     h1, h2 {
@@ -19,6 +21,7 @@
       border: 1px solid #ddd;
       padding: 10px;
       margin: 10px;
+      background-color: rgba(255, 255, 255, 0.7); /* Add a semi-transparent white background for better readability */
     }
     .weather-box h3 {
       text-transform: uppercase;
@@ -59,5 +62,6 @@
   @else
     <p>No data available for the next 72 hours.</p>
   @endif
+  
 </body>
 </html>

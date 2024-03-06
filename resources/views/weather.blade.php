@@ -31,14 +31,17 @@
     }
     .outlook-message {
       text-align: center;
+      line-height: 50px; /* Set the line height to match the dot size */
     }
     .green-dot {
       color: green;
       font-size: 50px; /* Adjust the size of the dot as needed */
+      vertical-align: -11px; /* Align the dots vertically with the text */
     }
     .red-dot {
       color: red;
       font-size: 50px; /* Adjust the size of the dot as needed */
+      vertical-align: -11px; /* Align the dots vertically with the text */
     }
   </style>
 </head>

@@ -60,3 +60,4 @@ class WeatherController extends Controller
         return false;
     }
 }
+

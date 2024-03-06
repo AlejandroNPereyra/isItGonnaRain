@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 class WeatherController extends Controller
@@ -15,68 +14,49 @@ class WeatherController extends Controller
         // API endpoint URL
         $url = 'https://api.open-meteo.com/v1/forecast'; // Updated based on documentation
 
-        // Parameters for soon (next few hours)
-        $soonParams = [
+        // Parameters for the next 7 days
+        $parameters = [
         'latitude' => 41.388333, // Barcelona's latitude
         'longitude' => 2.168333, // Barcelona's longitude
         'hourly' => 'rain',
-        'limit' => 6, // Adjust the limit based on your definition of "soon"
-        ];
-
-        // Parameters for next 24 hours
-        $next24Params = [
-        'latitude' => 41.388333,
-        'longitude' => 2.168333,
-        'hourly' => 'rain',
-        'limit' => 24,
-        ];
-
-        // Parameters for next 48 hours
-        $next48Params = [
-        'latitude' => 41.388333,
-        'longitude' => 2.168333,
-        'hourly' => 'rain',
-        'limit' => 48,
         ];
 
         try {
         // Send GET requests to the API for each time frame
-        $soonResponse = $client->request('GET', $url, ['query' => $soonParams]);
-        $next24Response = $client->request('GET', $url, ['query' => $next24Params]);
-        $next48Response = $client->request('GET', $url, ['query' => $next48Params]);
+        $Response = $client->request('GET', $url, ['query' => $parameters]);
 
         // Get response bodies
-        $soonData = json_decode($soonResponse->getBody()->getContents(), true);
-        $next24Data = json_decode($next24Response->getBody()->getContents(), true);
-        $next48Data = json_decode($next48Response->getBody()->getContents(), true);
+        $data = json_decode($Response->getBody()->getContents(), true);
 
         // Analyze precipitation data for each time frame
-        $soonWillRain = $this->analyzePrecipitation($soonData);
-        $next24WillRain = $this->analyzePrecipitation($next24Data);
-        $next48WillRain = $this->analyzePrecipitation($next48Data);
+        $willRain = $this->analyzePrecipitation($data);
 
         // Pass data to view
-        return view('weather', compact('soonWillRain', 'next24WillRain', 'next48WillRain'));
+        return view('weather', compact('willRain', 'data'));
         } catch (\Exception $e) {
         // Handle error
         return view('error', ['error' => $e->getMessage()]);
         }
     }
 
-        // Function to analyze precipitation data
-        private function analyzePrecipitation($data)
+    private function analyzePrecipitation($data)
     {
-    // Check if "hourly" and "data" keys exist before accessing them
-    if (isset($data['hourly']) && isset($data['hourly']['data'])) {
-        foreach ($data['hourly']['data'] as $hour) {
-        if (isset($hour['rain']) && $hour['rain'] > 0) {
-            return true;
+        // Check if "hourly" key exists
+        if (isset($data['hourly'])) {
+            // Access data using the correct key (replace 'data' if required)
+            $hourlyData = $data['hourly'];
+        
+            // Look for any hour with rain using PHP's array_filter function
+            $hasRain = array_filter($hourlyData, function ($hour) {
+            return isset($hour['rain']) && $hour['rain'] > 0;
+            });
+        
+            // Check if any element is found in the filtered array
+            return !empty($hasRain);
+        } else {
+            // Handle the case where data is unavailable
+            // (e.g., log an error message or return a default value)
         }
-        }
-    } else {
-        // Handle the case where data is unavailable
-        // (e.g., log an error message or return a default value)
-    }
-    return false;
+        return false;
     }
 }

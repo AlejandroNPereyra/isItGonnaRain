@@ -8,27 +8,37 @@
   <style>
     /* Add some basic styling for a weather theme */
     body {
-      font-family: Arial, sans-serif;
-      background-image: url('isItGonnaRain.jpg');
+      font-family: sans-serif; /* Change font family to a generic sans-serif font */
+      background-image: url('isItGonnaRain.png');
       background-size: cover;
       background-position: center;      
-      color: #333;
+      color: #333; /* Set font color to a dark color for better readability */
+      padding: 20px; /* Add padding to body for better spacing */
     }
-    h1, h2 {
+    h1 {
       text-align: center;
+      margin-bottom: 20px; /* Add margin at the bottom of h1 for better spacing */
     }
     .weather-box {
       border: 1px solid #ddd;
-      padding: 10px;
-      margin: 10px;
-      background-color: rgba(255, 255, 255, 0.7); /* Add a semi-transparent white background for better readability */
+      padding: 30px;
+      margin: 40px;
+      background-color: rgba(255, 255, 255, 0.3); /* Add a semi-transparent white background for better readability */
     }
     .weather-box h3 {
       text-transform: uppercase;
       font-weight: bold;
     }
     .outlook-message {
-  text-align: center;
+      text-align: center;
+    }
+    .green-dot {
+      color: green;
+      font-size: 50px; /* Adjust the size of the dot as needed */
+    }
+    .red-dot {
+      color: red;
+      font-size: 50px; /* Adjust the size of the dot as needed */
     }
   </style>
 </head>
@@ -53,9 +63,9 @@
         @endphp
 
         @if ($rain)
-        <p class="outlook-message"><i class="fas fa-cloud-rain"></i> It is likely to rain within the next {{ $timeFrame }} hours.</p>
+        <p class="outlook-message"><span class="red-dot">&#8226;</span> It is likely to rain within the next {{ $timeFrame }} hours.</p>
         @else
-        <p class="outlook-message"><i class="fas fa-sun"></i> It is not likely to rain within the next {{ $timeFrame }} hours.</p>
+        <p class="outlook-message"><span class="green-dot">&#8226;</span> It is not likely to rain within the next {{ $timeFrame }} hours.</p>
         @endif
       </div>
     @endforeach

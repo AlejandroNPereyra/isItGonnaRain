@@ -21,7 +21,7 @@
     }
     .weather-box {
       border: 1px solid #ddd;
-      padding: 25px;
+      padding: 20px;
       margin: 40px;
       background-color: rgba(255, 255, 255, 0.3); /* Add a semi-transparent white background for better readability */
     }

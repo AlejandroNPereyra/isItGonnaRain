@@ -1,5 +1,3 @@
-<!-- resources/views/weather.blade.php -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +7,82 @@
 </head>
 <body>
     <h1>Weather Forecast for Barcelona</h1>
-    <h2>Soon (Next Few Hours)</h2>
-    <p>Rain: {{ $soonWillRain ? 'Yes' : 'No' }}</p>
+
+    {{-- <pre>
+        {{ dd($data) }}
+    </pre> --}}
+
+    <h2>Next 4 Hours</h2>
+    @if (isset($data['hourly']))
+        <?php
+        // Extract hourly data and initialize rain flag
+        $hourlyData = $data['hourly'];
+        $rain = false;
+
+        // Loop through the first 4 hours and check for rain
+        for ($i = 0; $i < 4; $i++) {
+            if (isset($hourlyData['rain'][$i]) && $hourlyData['rain'][$i] > 0) {
+                $rain = true;
+                break; // Exit loop if rain is found
+            }
+        }
+        ?>
+        @if ($rain)
+            <p>It is likely to rain within the next 4 hours.</p>
+        @else
+            <p>It is not likely to rain within the next 4 hours.</p>
+        @endif
+    @else
+        <p>No data available for the next 4 hours.</p>
+    @endif
+
     <h2>Next 24 Hours</h2>
-    <p>Rain: {{ $next24WillRain ? 'Yes' : 'No' }}</p>
+    @if (isset($data['hourly']))
+        <?php
+        // Extract hourly data and initialize rain flag
+        $hourlyData = $data['hourly'];
+        $rain = false;
+
+        // Loop through the first 24 hours and check for rain
+        for ($i = 0; $i < 24; $i++) {
+            if (isset($hourlyData['rain'][$i]) && $hourlyData['rain'][$i] > 0) {
+                $rain = true;
+                break; // Exit loop if rain is found
+            }
+        }
+        ?>
+        @if ($rain)
+            <p>It is likely to rain within the next 24 hours.</p>
+        @else
+            <p>It is not likely to rain within the next 24 hours.</p>
+        @endif
+    @else
+        <p>No data available for the next 24 hours.</p>
+    @endif
+
     <h2>Next 48 Hours</h2>
-    <p>Rain: {{ $next48WillRain ? 'Yes' : 'No' }}</p>
-</body>
+    @if (isset($data['hourly']))
+        <?php
+        // Extract hourly data and initialize rain flag
+        $hourlyData = $data['hourly'];
+        $rain = false;
+
+        // Loop through the first 48 hours and check for rain
+        for ($i = 0; $i < 48; $i++) {
+            if (isset($hourlyData['rain'][$i]) && $hourlyData['rain'][$i] > 0) {
+                $rain = true;
+                break; // Exit loop if rain is found
+            }
+        }
+        ?>
+        @if ($rain)
+            <p>It is likely to rain within the next 48 hours.</p>
+        @else
+            <p>It is not likely to rain within the next 48 hours.</p>
+        @endif
+    @else
+        <p>No data available for the next 48 hours.</p>
+    @endif
+
+    </body>
 </html>

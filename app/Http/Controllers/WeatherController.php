@@ -19,9 +19,7 @@ class WeatherController extends Controller
         $soonParams = [
         'latitude' => 41.388333, // Barcelona's latitude
         'longitude' => 2.168333, // Barcelona's longitude
-        'hourly' => 'precipitation',
-        'daily' => '', // Removed daily parameter - not needed for hourly data
-        'location_mode' => 'coords', // Updated location mode as per documentation
+        'hourly' => 'rain',
         'limit' => 6, // Adjust the limit based on your definition of "soon"
         ];
 
@@ -29,9 +27,7 @@ class WeatherController extends Controller
         $next24Params = [
         'latitude' => 41.388333,
         'longitude' => 2.168333,
-        'hourly' => 'precipitation',
-        'daily' => '',
-        'location_mode' => 'coords',
+        'hourly' => 'rain',
         'limit' => 24,
         ];
 
@@ -39,9 +35,7 @@ class WeatherController extends Controller
         $next48Params = [
         'latitude' => 41.388333,
         'longitude' => 2.168333,
-        'hourly' => 'precipitation',
-        'daily' => '',
-        'location_mode' => 'coords',
+        'hourly' => 'rain',
         'limit' => 48,
         ];
 
@@ -75,7 +69,7 @@ class WeatherController extends Controller
     // Check if "hourly" and "data" keys exist before accessing them
     if (isset($data['hourly']) && isset($data['hourly']['data'])) {
         foreach ($data['hourly']['data'] as $hour) {
-        if (isset($hour['precipitation']) && $hour['precipitation'] > 0) {
+        if (isset($hour['rain']) && $hour['rain'] > 0) {
             return true;
         }
         }

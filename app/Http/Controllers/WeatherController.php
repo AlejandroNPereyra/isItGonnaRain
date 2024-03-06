@@ -6,10 +6,10 @@ use GuzzleHttp\Client;
 
 class WeatherController extends Controller
 {
-    public function index()
+    public function getPrecipitationData()
     {
         // Initialize Guzzle client
-        $client = new Client();
+        $isItGonnaRain = new Client();
 
         // API endpoint URL
         $url = 'https://api.open-meteo.com/v1/forecast'; // Updated based on documentation
@@ -23,10 +23,10 @@ class WeatherController extends Controller
 
         try {
         // Send GET requests to the API for each time frame
-        $Response = $client->request('GET', $url, ['query' => $parameters]);
+        $response = $isItGonnaRain->request('GET', $url, ['query' => $parameters]);
 
         // Get response bodies
-        $data = json_decode($Response->getBody()->getContents(), true);
+        $data = json_decode($response->getBody()->getContents(), true);
 
         // Pass data to view
         return view('weather', compact('data'));

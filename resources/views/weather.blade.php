@@ -14,6 +14,8 @@
       background-position: center;      
       color: #333; /* Set font color to a dark color for better readability */
       padding: 10px; /* Add padding to body for better spacing */
+      position: relative; /* Position the copyright notice relative to the body */
+      min-height: 100vh; /* Ensure that the body fills the viewport height */
     }
     h1 {
       text-align: center;
@@ -47,7 +49,7 @@
     #datetime {
       position: absolute;
       top: 55px;
-      right: 180px;
+      right: 160px;
       font-size: 15px;
     }
     /* Style for city selector */
@@ -56,6 +58,19 @@
       top: 55px;
       right: 310px;
       font-size: 15px;
+    }
+    /* Style for the no data message */
+    .no-data-message {
+      font-size: 24px; /* Set the font size to make it bigger */
+      text-align: center; /* Center the text */
+    }    
+    /* Style for the copyright notice */
+    .copyright {
+      position: absolute;
+      bottom: 75px; /* Adjust the bottom position */
+      right: 175px; /* Adjust the right position */
+      font-size: 18px; /* Adjust the font size */
+      color: #666; /* Set the color */
     }
   </style>
 </head>
@@ -103,8 +118,13 @@
       </div>
     @endforeach
   @else
-    <p>No data available for the next 72 hours.</p>
+  <div class="weather-box">
+    <p class="no-data-message">No data available for the next 72 hours.</p>
+  </div>  
   @endif
+
+  <!-- Copyright notice -->
+  <div class="copyright">&copy; 2024 AlejandroNPereyra</div>
 
   <script>
     // Update date and time in real-time
@@ -113,20 +133,24 @@
       var datetimeElement = document.getElementById('datetime');
       datetimeElement.textContent = now.toLocaleString();
     }
-
+  
     // Call updateTime function initially and then every second
     updateTime(); // Initial call
     setInterval(updateTime, 1000); // Update every second
-
+  
     // Handle city selector change event
     document.getElementById('citySelector').addEventListener('change', function() {
       var selectedValue = this.value;
-      var coordinates = selectedValue.split(',');
-      var latitude = coordinates[0];
-      var longitude = coordinates[1];
-
-      // Redirect to the weather endpoint with new coordinates
-      window.location.href = '/weather?latitude=' + latitude + '&longitude=' + longitude;
+      if (selectedValue === '') {
+        window.location.href = '/weather'; // Redirect to weather view if "Select a city" is chosen
+      } else {
+        var coordinates = selectedValue.split(',');
+        var latitude = coordinates[0];
+        var longitude = coordinates[1];
+  
+        // Redirect to the weather endpoint with new coordinates
+        window.location.href = '/weather?latitude=' + latitude + '&longitude=' + longitude;
+      }
     });
   </script>
 </body>

@@ -57,6 +57,11 @@
       right: 310px;
       font-size: 15px;
     }
+    /* Style for the no data message */
+    .no-data-message {
+      font-size: 24px; /* Set the font size to make it bigger */
+      text-align: center; /* Center the text */
+    }    
   </style>
 </head>
 <body>
@@ -103,8 +108,9 @@
       </div>
     @endforeach
   @else
-    <p>No data available for the next 72 hours.</p>
-  @endif
+  <div class="weather-box">
+    <p class="no-data-message">No data available for the next 72 hours.</p>
+  </div>  @endif
 
   <script>
     // Update date and time in real-time
@@ -113,20 +119,24 @@
       var datetimeElement = document.getElementById('datetime');
       datetimeElement.textContent = now.toLocaleString();
     }
-
+  
     // Call updateTime function initially and then every second
     updateTime(); // Initial call
     setInterval(updateTime, 1000); // Update every second
-
+  
     // Handle city selector change event
     document.getElementById('citySelector').addEventListener('change', function() {
       var selectedValue = this.value;
-      var coordinates = selectedValue.split(',');
-      var latitude = coordinates[0];
-      var longitude = coordinates[1];
-
-      // Redirect to the weather endpoint with new coordinates
-      window.location.href = '/weather?latitude=' + latitude + '&longitude=' + longitude;
+      if (selectedValue === '') {
+        window.location.href = '/weather'; // Redirect to weather view if "Select a city" is chosen
+      } else {
+        var coordinates = selectedValue.split(',');
+        var latitude = coordinates[0];
+        var longitude = coordinates[1];
+  
+        // Redirect to the weather endpoint with new coordinates
+        window.location.href = '/weather?latitude=' + latitude + '&longitude=' + longitude;
+      }
     });
   </script>
 </body>

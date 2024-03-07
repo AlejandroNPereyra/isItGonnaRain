@@ -14,6 +14,8 @@
       background-position: center;      
       color: #333; /* Set font color to a dark color for better readability */
       padding: 10px; /* Add padding to body for better spacing */
+      position: relative; /* Position the copyright notice relative to the body */
+      min-height: 100vh; /* Ensure that the body fills the viewport height */
     }
     h1 {
       text-align: center;
@@ -47,7 +49,7 @@
     #datetime {
       position: absolute;
       top: 55px;
-      right: 180px;
+      right: 160px;
       font-size: 15px;
     }
     /* Style for city selector */
@@ -62,6 +64,14 @@
       font-size: 24px; /* Set the font size to make it bigger */
       text-align: center; /* Center the text */
     }    
+    /* Style for the copyright notice */
+    .copyright {
+      position: absolute;
+      bottom: 75px; /* Adjust the bottom position */
+      right: 175px; /* Adjust the right position */
+      font-size: 18px; /* Adjust the font size */
+      color: #666; /* Set the color */
+    }
   </style>
 </head>
 <body>
@@ -110,7 +120,11 @@
   @else
   <div class="weather-box">
     <p class="no-data-message">No data available for the next 72 hours.</p>
-  </div>  @endif
+  </div>  
+  @endif
+
+  <!-- Copyright notice -->
+  <div class="copyright">&copy; 2024 AlejandroNPereyra</div>
 
   <script>
     // Update date and time in real-time

@@ -50,11 +50,31 @@
       right: 180px;
       font-size: 15px;
     }
+    /* Style for city selector */
+    #citySelector {
+      position: absolute;
+      top: 55px;
+      right: 310px;
+      font-size: 15px;
+    }
   </style>
 </head>
 <body>
   <!-- Real-time date and time -->
   <div id="datetime"></div>
+
+  <!-- City selector -->
+  <select id="citySelector">
+    <option value="">Select a city</option>
+    @foreach ($europeanCities as $country => $cities)
+      @foreach ($cities as $city => $coordinates)
+        @php
+          $selected = (request()->has(['latitude', 'longitude']) && request()->latitude == $coordinates['latitude'] && request()->longitude == $coordinates['longitude']) ? 'selected' : '';
+        @endphp
+        <option value="{{ $coordinates['latitude'] }},{{ $coordinates['longitude'] }}" {{ $selected }}>{{ $city }}, {{ $country }}</option>
+      @endforeach
+    @endforeach
+  </select>
 
   <h1>Is It Gonna Rain?</h1>
 
@@ -97,6 +117,17 @@
     // Call updateTime function initially and then every second
     updateTime(); // Initial call
     setInterval(updateTime, 1000); // Update every second
+
+    // Handle city selector change event
+    document.getElementById('citySelector').addEventListener('change', function() {
+      var selectedValue = this.value;
+      var coordinates = selectedValue.split(',');
+      var latitude = coordinates[0];
+      var longitude = coordinates[1];
+
+      // Redirect to the weather endpoint with new coordinates
+      window.location.href = '/weather?latitude=' + latitude + '&longitude=' + longitude;
+    });
   </script>
 </body>
 </html>

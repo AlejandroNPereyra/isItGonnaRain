@@ -2,38 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
 class WeatherController extends Controller
 {
-    public function getPrecipitationData()
+    public function getPrecipitationData(Request $request)
     {
-        // Initialize Guzzle client
-        $isItGonnaRain = new Client();
+        // Check if latitude and longitude parameters are present
+        if ($request->has(['latitude', 'longitude'])) {
+            // Initialize Guzzle client
+            $client = new Client();
 
-        // API endpoint URL
-        $url = 'https://api.open-meteo.com/v1/forecast'; // Updated based on documentation
+            // API endpoint URL
+            $url = 'https://api.open-meteo.com/v1/forecast'; // Updated based on documentation
 
-        // Parameters for the next 7 days
-        $parameters = [
-        'latitude' => 41.388333, // Barcelona's latitude
-        'longitude' => 2.168333, // Barcelona's longitude
-        'hourly' => 'rain',
-        'forecast_days' => '3'
-        ];
+            // Parameters for the next 3 days
+            $parameters = [
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'hourly' => 'rain',
+                'forecast_days' => '3'
+            ];
 
-        try {
-        // Send GET requests to the API for each time frame
-        $response = $isItGonnaRain->request('GET', $url, ['query' => $parameters]);
+            try {
+                // Send GET request to the API
+                $response = $client->request('GET', $url, ['query' => $parameters]);
 
-        // Get response bodies
-        $data = json_decode($response->getBody()->getContents(), true);
+                // Get response body
+                $data = json_decode($response->getBody()->getContents(), true);
 
-        // Pass data to view
-        return view('weather', compact('data'));
-        } catch (\Exception $e) {
-        // Handle error
-        return view('error', ['error' => $e->getMessage()]);
+                // Load the array of European cities
+                $europeanCities = require(public_path('european_cities.php'));
+
+                // Pass data and European cities to view
+                return view('weather', compact('data', 'europeanCities'));
+            } catch (\Exception $e) {
+                // Handle error
+                return view('error', ['error' => $e->getMessage()]);
+            }
+        } else {
+            // No city selected, return default view
+            return view('weather');
         }
     }
 }

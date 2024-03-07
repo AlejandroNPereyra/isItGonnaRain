@@ -15,7 +15,7 @@ use App\Http\Controllers\WeatherController;
 */
 
 Route::get('/', function () {
-    return view('weather');
+    return view('welcome');
 });
 
 Route::get('/weather', [WeatherController::class, 'getPrecipitationData']);

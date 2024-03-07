@@ -36,14 +36,14 @@ class WeatherController extends Controller
                 $data = json_decode($response->getBody()->getContents(), true);
 
                 // Pass data and European cities to view
-                return view('weather', compact('data', 'europeanCities'));
+                return view('welcome', compact('data', 'europeanCities'));
             } catch (\Exception $e) {
                 // Handle error
                 return view('error', ['error' => $e->getMessage()]);
             }
         } else {
             // No city selected, return default view
-            return view('weather', compact('europeanCities'));
+            return view('welcome', compact('europeanCities'));
         }
     }
 }

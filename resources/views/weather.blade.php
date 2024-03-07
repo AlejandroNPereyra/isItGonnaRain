@@ -43,9 +43,19 @@
       font-size: 50px; /* Adjust the size of the dot as needed */
       vertical-align: -11px; /* Align the dots vertically with the text */
     }
+    /* Style for real-time date and time */
+    #datetime {
+      position: absolute;
+      top: 55px;
+      right: 180px;
+      font-size: 15px;
+    }
   </style>
 </head>
 <body>
+  <!-- Real-time date and time -->
+  <div id="datetime"></div>
+
   <h1>Is It Gonna Rain?</h1>
 
   @if (isset($data['hourly']))
@@ -75,6 +85,18 @@
   @else
     <p>No data available for the next 72 hours.</p>
   @endif
-  
+
+  <script>
+    // Update date and time in real-time
+    function updateTime() {
+      var now = new Date();
+      var datetimeElement = document.getElementById('datetime');
+      datetimeElement.textContent = now.toLocaleString();
+    }
+
+    // Call updateTime function initially and then every second
+    updateTime(); // Initial call
+    setInterval(updateTime, 1000); // Update every second
+  </script>
 </body>
 </html>

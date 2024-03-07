@@ -19,6 +19,7 @@ class WeatherController extends Controller
         'latitude' => 41.388333, // Barcelona's latitude
         'longitude' => 2.168333, // Barcelona's longitude
         'hourly' => 'rain',
+        'forecast_days' => '3'
         ];
 
         try {

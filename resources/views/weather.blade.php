@@ -63,14 +63,18 @@
   <!-- Real-time date and time -->
   <div id="datetime"></div>
 
-<!-- City selector -->
-<select id="citySelector">
-  @foreach ($europeanCities as $country => $cities)
+  <!-- City selector -->
+  <select id="citySelector">
+    <option value="">Select a city</option>
+    @foreach ($europeanCities as $country => $cities)
       @foreach ($cities as $city => $coordinates)
-          <option value="{{ $coordinates['latitude'] }},{{ $coordinates['longitude'] }}">{{ $city }}, {{ $country }}</option>
+        @php
+          $selected = (request()->has(['latitude', 'longitude']) && request()->latitude == $coordinates['latitude'] && request()->longitude == $coordinates['longitude']) ? 'selected' : '';
+        @endphp
+        <option value="{{ $coordinates['latitude'] }},{{ $coordinates['longitude'] }}" {{ $selected }}>{{ $city }}, {{ $country }}</option>
       @endforeach
-  @endforeach
-</select>
+    @endforeach
+  </select>
 
   <h1>Is It Gonna Rain?</h1>
 

@@ -9,6 +9,9 @@ class WeatherController extends Controller
 {
     public function getPrecipitationData(Request $request)
     {
+        // Load the array of European cities
+        $europeanCities = require(public_path('european_cities.php'));
+
         // Check if latitude and longitude parameters are present
         if ($request->has(['latitude', 'longitude'])) {
             // Initialize Guzzle client
@@ -32,9 +35,6 @@ class WeatherController extends Controller
                 // Get response body
                 $data = json_decode($response->getBody()->getContents(), true);
 
-                // Load the array of European cities
-                $europeanCities = require(public_path('european_cities.php'));
-
                 // Pass data and European cities to view
                 return view('weather', compact('data', 'europeanCities'));
             } catch (\Exception $e) {
@@ -43,7 +43,7 @@ class WeatherController extends Controller
             }
         } else {
             // No city selected, return default view
-            return view('weather');
+            return view('weather', compact('europeanCities'));
         }
     }
 }

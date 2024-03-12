@@ -18,5 +18,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/', [WeatherController::class, 'getPrecipitationData']);
+Route::get('/weather', [WeatherController::class, 'getPrecipitationData']);
 
